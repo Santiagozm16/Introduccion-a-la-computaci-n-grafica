@@ -1,0 +1,228 @@
+  float x1,x2,y1,y2;
+  private int i,j, n = 3;
+  int bandera = 0;
+  Linea line = new Linea();
+  Circulo circle = new Circulo();
+  Punto point = new Punto();
+  Ovalo ellipse = new Ovalo();
+  Rectangulo rect = new Rectangulo();
+  Cuadrado squad = new Cuadrado();
+  Poligono polygon = new Poligono();
+  Interfaz menu = new Interfaz();
+void setup(){
+ size(800,800);
+ menu.Menu();
+ frameRate(24);
+}
+
+void draw(){
+  fill(255);
+  stroke(0);
+  strokeWeight(2);
+  keyPressed();
+  println(getn());
+    switch(bandera){
+       case 1:
+       mouseClicked();
+         if(getj() >= 1){
+         line.dibujarLinea(x1,y1,x2,y2);
+         setj(0);
+         }
+       break;
+       case 2:
+       mouseClicked();
+
+       break;
+       case 3:
+         point.dibujarPunto();
+       break;
+      case 4:
+       mouseClicked();
+         if(getj() >= 1){
+         ellipse.dibujarOvalo(x1,y1,x2,y2);
+         setj(0);
+         }
+       break;
+       case 5:
+       mouseClicked();
+         if(getj() >= 1){
+         rect.dibujarRectangulo(x1,y1,x2,y2);
+         setj(0);
+         }
+       break;
+       case 6:
+       mouseClicked();
+         if(getj() >= 1){
+         squad.dibujarCuadrado(x1,y1,x2,y2);
+         setj(0);
+         }
+       break;
+       case 7:
+         frameRate(15);
+         mouseClicked();
+         if(getj() >= 1){
+         polygon.dibujarPoligono(x1,y1,x2,y2,n);
+         setj(0);
+         }
+       break;
+       case 8:
+       rectMode(CORNER);
+       fill(204);
+       strokeWeight(0);
+       rect(0,0,900,900);
+       menu.Menu();
+    }
+}
+void mouseClicked(){ //Metodo para marcar los puntos de referncia para dibujar.
+   if(mousePressed == true && mouseButton == LEFT ){//Punto 1
+      x1= mouseX;
+      y1 = mouseY;
+      seti(1);
+   }
+   if(mousePressed == true && mouseButton == RIGHT){//Punto 2
+      x2= mouseX;
+      y2=mouseY;
+      setj(1);// Variable "Bandera" que sirve para saber que los dos puntos han sido marcados.
+   }
+}
+int geti(){ //Metodo que retorna el valor de la variable i
+  return i;
+}
+int getj(){ //Metodo que retorna el valor de la variable i
+  return j;
+}
+int getn(){
+ return n; 
+}
+void seti(int a){ //Metodo para asignar valores a la variable i
+  i = a;
+} 
+void setj(int b){ //Metodo para asignar valores a la variable j
+   j = b;
+}
+void setn(int c){ //Metodo para asignar valores a la variable n
+  n = c; 
+}
+void keyPressed(){ 
+  if(keyPressed == true && keyCode == UP){//Es para el # de lados del poligono. 
+    setn(getn()+1);
+  }
+  if(keyPressed == true && keyCode == DOWN){
+    setn(getn()-1);
+    if(getn()<3)
+    setn(3);
+  }
+  if(key == '1'){ //Seleccion de forma, indice que se utiliza en el switch
+  bandera = 1;
+  }
+  if(key == '2'){
+  bandera = 2;
+  }
+  if(key == '3'){
+  bandera = 3;
+  }
+  if(key == '4'){
+  bandera = 4;
+  }
+  if(key == '5'){
+  bandera = 5;
+  }
+  if(key == '6'){
+  bandera = 6;
+  }
+  if(key == '7'){
+  bandera = 7;
+  }
+  if(key == '8'){
+   bandera = 8; 
+  }
+}
+class Circulo{
+ void dibujarCirculo(float a,float b, float c, float d){
+   ellipseMode(CENTER);
+   float dx = dist(a,b,c,d)*2;
+   ellipse(a,b,dx,dx);
+ }
+}
+class Cuadrado{
+  void dibujarCuadrado(float a, float b, float c, float d){
+   float dx = dist(a,b,c,d)*2;
+   rectMode(CENTER);
+   rect(a,b,dx,dx); 
+  }
+}
+class Interfaz{
+    void Menu(){
+     fill(44,41,39);
+     strokeWeight(0);
+     rect(12,56,47,428);
+     fill(150,19,16);
+     rect(15,65,40,40); //Rect Linea
+     rect(15,118,40,40); // Rect Circulo
+     rect(15,171,40,40); // Rect Punto
+     rect(15,224,40,40); // Rect Ovalo
+     rect(15,277,40,40); // Rect Rectangulo
+     rect(15,330,40,40); // Rect cuadrado
+     rect(15,383,40,40); // Rect Poligono
+     stroke(194,192,22); //Linea
+     strokeWeight(3);
+     line(22,99,40,68);
+     strokeWeight(2);//Circulo 
+     stroke(194,192,22);
+     fill(255);
+     ellipseMode(CORNER);
+     ellipse(19,122,30,30);
+     fill(194,192,22); // Punto
+     ellipse(19,175,30,30);
+     fill(255); // Ovalo
+     ellipse(20,233,30,20);
+     rect(19,285,30,20); //Rectangulo
+     rect(19,334, 30,30); //Cuadrado
+     polygon.dibujarPoligono(35,402,28,400,3); // Triangulo (Poligono)
+     fill(204); // Borrador;
+     strokeWeight(0);
+     rect(15,436,40,40);
+    }
+}
+class Linea{
+  void dibujarLapiz(){
+    if(mousePressed == true && mouseButton == LEFT){
+      line(mouseX,mouseY,pmouseX,pmouseY); 
+    }    
+  }
+  void dibujarLinea(float a, float b, float c, float d){
+    line(a,b,c,d); 
+  }
+}
+class Ovalo{
+  void dibujarOvalo(float a, float b, float c, float d){
+    ellipseMode(CORNERS);
+    ellipse(a,b,c,d);
+  }
+}
+class Poligono{
+ void dibujarPoligono(float x, float y, float c, float d, int npoints) {
+  float radio = dist(x,y,c,d)*2;
+  float angle = TWO_PI / npoints;
+  beginShape();
+    for (float a = 0; a < TWO_PI; a += angle) {
+      float sx = x + cos(a) * radio;
+      float sy = y + sin(a) * radio;
+      vertex(sx, sy);
+    }
+  endShape(CLOSE);
+  }  
+}
+class Punto{
+  void dibujarPunto(){
+    if(mousePressed == true && mouseButton == LEFT){
+    point(mouseX,mouseY);
+    }
+  }
+}
+class Rectangulo{
+  void dibujarRectangulo(float a, float b, float c, float d){
+    rectMode(CORNERS);
+    rect(a,b,c,d);
+    }
+}
