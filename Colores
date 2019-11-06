@@ -1,0 +1,29 @@
+int PartColor = 3;
+int radio;
+int H,S,B;
+int colorM;
+void setup() {
+  size(500,500);
+  noStroke();
+  background(0);
+}
+
+void draw() {
+  PartColor =64;
+  if (PartColor < 3) PartColor = 3;
+  radio = 500;
+  if (radio == 0) radio = 500;
+  colorMode(HSB,PartColor);
+  background(0);
+  for(int i=0; i < PartColor; i=i+1) {
+    fill(i,100,100);
+    arc(width/2, height/2, radio, radio, i*TWO_PI/PartColor, (i+1)*TWO_PI/PartColor);
+  }
+  if(mousePressed && mouseButton == LEFT){
+    colorM = get(mouseX,mouseY);
+    H = (colorM >> 16) & 0xFF;  // red(argb)
+    S = (colorM >> 8) & 0xFF;   // green(argb)
+    B = colorM & 0xFF;          // blue(argb)
+    println("El color es: "+H+" -- "+S+" -- "+B);
+  }
+}
