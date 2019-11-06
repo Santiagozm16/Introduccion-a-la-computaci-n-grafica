@@ -1,0 +1,189 @@
+//Programa de bordados por:
+//Gustavo Leon
+//Jesus Ruiz
+//Santiago Rodriguez 
+//Instrucciones:
+//Para realizar un bordado marque el punto desde donde este inicia con click izquierdo y marque el punto final del bordado con click derecho, en este momento se dibujara el “hilo” guía, 
+//para el bordado #1 presione la tecla “a”, para el bordado #2 la tecla “s” y para el bordado #2 la tecla “d”. Ningún bordado se puede superponer, para realizar esto debe realizar nuevamente la marcación de punto inicial y final. 
+//Para borrar todo presione la flecha a la izquierda. 
+
+float x0,y0,x1,y1,Px,Py,dis,cant,Sum1,Sum2,aux1,aux2,cons;
+boolean b1 = false ,b2 = false;
+float  distancia1 = 15; // Distancia entre punto y punto
+float m;
+int redondear;
+void setup(){
+size(500,500);
+frameRate(10);
+}
+void draw(){
+   textSize(10);
+ text("click izquierdo= punto inicial, derecho= final. a= bordado_1, s=2 y d=3. <- izquierda= borrar", 2 + 10, 20);
+if(mousePressed == true && mouseButton == LEFT && b1 == false){
+    x0= mouseX;
+    Px = x0;
+    y0= mouseY;
+    b1 = true;
+  }
+  if(mousePressed == true && mouseButton == RIGHT && b2 == false){
+    x1 = mouseX;
+    y1 = mouseY;
+    if(x0<x1){
+    Calcular();
+    }else{
+    Px = x1;
+    aux1=x0;
+    aux2=y0;
+    x0=x1;
+    y0=y1;
+    x1=aux1;
+    y1=aux2;
+    Calcular();
+    }
+  }
+  if(keyPressed && key == 'a'){
+  if(b2 == true){
+    dibujarBolitas(); //Bordado 01 - Gustavo
+  }
+  }
+  if(keyPressed && key == 's'){
+    if(b2 == true){
+    dibujarPuntoCruz(); //Bordado 02 - Santiago
+    }
+  }
+  if(keyPressed && key == 'd'){
+    if(b2 == true){
+    dibujarEso(); //Bordado 03 - Jesus
+    }
+  }
+  if(keyPressed && keyCode == LEFT){
+   background(204); 
+  }
+}
+void Calcular(){
+    dis = dist(x0,y0,x1,y1);
+    cant = dis/distancia1;
+    redondear = round(cant);
+    m = (y1-y0)/(x1-x0); //Ecuacion de una recta dado dos puntos y-y1=m(x-x1)
+    b2 = true;
+    stroke(255,104,105);
+    line(x0,y0,x1,y1);
+}
+void bordado1()
+{
+  int pointCount=5;
+  int steps=1;
+  float outerRadius=width*0.028;
+  float innerRadiusFactor=0.018;
+  float innerRadius=outerRadius*innerRadiusFactor;
+  float outerRadiusRatio=outerRadius/steps;
+  float innerRadiusRatio=innerRadius/steps;
+  float shadeRatio=255/steps;
+  float rotationRatio=90.0/steps;
+  
+  for(int i=0;i<steps;i++)  
+  {
+    stroke(255 - shadeRatio * i, 150,100);
+    fill(shadeRatio*i,shadeRatio+i, shadeRatio-i);
+    pushMatrix();
+    rotate(rotationRatio * i * PI/300);
+  
+    fill(shadeRatio*i,shadeRatio+i, shadeRatio-i);
+    rotate(rotationRatio * i * PI/-150);
+    Estrella(pointCount, outerRadius - outerRadiusRatio * i, innerRadius - innerRadiusRatio * i);
+    popMatrix();
+  }
+}
+void dibujarBolitas(){ //Diametro, pos x, pos y, cantidad de dibujos a realizar
+  for(float i=Px; i<=x1; i=i+distancia1){
+    Px = i;
+    Py = (m*(i-x1))+y1;
+    fill(255,0,0);
+    stroke(0);
+    bordado1();
+  }
+  b1 = false;
+  b2 = false;
+  println("Se han dibujado " + redondear + " bolitas" );
+}
+void dibujarPuntoCruz(){
+    for(float i=Px; i<=x1; i=i+distancia1){
+    Px = i;
+    Py = (m*(i-x1))+y1;
+    stroke(87,35,100);
+    beginShape(LINES);
+    vertex(Px-distancia1/2,Py-distancia1/2);
+    vertex(Px+distancia1/2,Py+distancia1/2);
+    vertex(Px+distancia1/2,Py-distancia1/2);
+    vertex(Px-distancia1/2,Py+distancia1/2);
+    endShape();
+    }
+    b1 = false;
+    b2 = false;
+    println(x0 + " ---- " + y0 +" ---- " + x1 + " ---- " + y1);
+    println("La pendiente de la recta es "+ m );
+    println("Se han dibujado " + redondear + " X " );
+}
+void bordado3(){
+int pointCount=30;
+  int steps=1;
+  float outerRadius=width*0.028;
+  float innerRadiusFactor=0.018;
+  float innerRadius=outerRadius*innerRadiusFactor;
+  float outerRadiusRatio=outerRadius/steps;
+  float innerRadiusRatio=innerRadius/steps;
+  float shadeRatio=255/steps;
+  float rotationRatio=90.0/steps;
+    for(int i=0;i<steps;i++)  
+  {
+       stroke(22 - shadeRatio * i, 120,30);
+    fill(shadeRatio*i,shadeRatio+i, shadeRatio-i);
+    pushMatrix();
+    rotate(rotationRatio * i * PI/260);
+   
+    fill(shadeRatio*i,shadeRatio+i, shadeRatio-i);
+    rotate(rotationRatio * i * PI/360);
+      Estrella(pointCount, outerRadius - outerRadiusRatio * i, innerRadius - innerRadiusRatio * i);
+    popMatrix();
+  }
+}
+void dibujarEso(){
+ 
+       for(float i=Px; i<=x1; i=i+distancia1){
+    Px = i;
+    Py = (m*(i-x1))+y1;
+    fill(255,0,0);
+    stroke(0);
+    bordado3();
+    b1 = false;
+    b2 = false;
+    println(x0 + " ---- " + y0 +" ---- " + x1 + " ---- " + y1);
+    
+    println("Se han dibujado " + redondear + " bolas " );
+}}
+void Estrella(int pointCount, float innerRadius, float outerRadius)
+{
+  float theta=0.0;
+  float tempRadius=0.0;
+  int vertCount=pointCount*2; 
+  float thetaRot = TWO_PI/vertCount;
+  float x, y;
+  beginShape();
+  translate(Px,Py);
+  for(int i=0;i<pointCount;i++)
+  {
+    for(int j=0;j<2;j++)
+    {
+      tempRadius=innerRadius;
+      if(j%2==0)
+      {
+        tempRadius=outerRadius;
+      }
+      x=cos(theta)*tempRadius;
+      y=sin(theta)*tempRadius;
+      vertex(x,y);
+      theta+=thetaRot;
+    }
+  }
+  endShape(CLOSE);
+}
