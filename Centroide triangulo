@@ -20,6 +20,9 @@ void draw(){
   triangle(x1,y1,x2,y2,x3,y3);
   cX = (x1+x2+x3)/3;
   cY = (y1+y2+y3)/3;
+  fill(255);
+  ellipseMode(CENTER);
+  ellipse(cX,cY,10,10);
   println("El centroide es "+"( "+cX+","+cY+" )");
   }
   if(keyPressed && keyCode == UP){
