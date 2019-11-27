@@ -1,0 +1,139 @@
+<html>
+	<head>
+		<title>Fractales </title>
+		<style>
+            html, body { margin: 0; padding: 0; overflow: hidden; }
+            #info {
+                position: absolute;
+                padding: 60px;
+                width: 100%;
+                text-align: center;
+                color: #FFFFFF;
+            }
+		</style>
+	</head>
+	<body>
+	<div id="info">INSTRUCCIONES: CADA VEZ QUE SE REFRESCA(F5) LA PAGINA SE MUESTRA UNA PARTE ALEATORIA DEL FRACTAL<br/>
+      
+        </div>
+		<script src="js/three.js"></script>
+		<script>
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+			var color1 = new THREE.Color( 0xFFFFFF );
+			var origin = new THREE.Vector3( 0, 0, 0 );
+			var xOrigen = new THREE.Vector3( 1, 0, 0 );
+			//Genera numero random hasta 3
+			var random  = Math.floor(Math.random()*3)+1;
+					
+			//SE REALIZA LA TRASLACION DE ESE OBJETO
+			var matrixT = new THREE.Matrix4();
+			matrixT.set( 1, 0, 0, 2,
+						 0, 1, 0, 2,
+						 0, 0, 1, 0,
+						 0, 0, 0, 1);						 
+			
+			//TRIANGULO 1
+			var x = 0, y = 0;
+			var myShape = new THREE.Shape();
+			myShape.moveTo( x + -1.5, y + -1.5);
+			myShape.lineTo( x + 1.5, y + -1.5);
+			myShape.lineTo( x + 0, y + 1.5);
+			var geometry = new THREE.ShapeGeometry( myShape );
+			var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+			var triangle = new THREE.Mesh( geometry, material ) ;
+			
+			//TRIANGULO 2
+			var x = 0, y = 0;
+			var myShape2 = new THREE.Shape();
+			myShape2.moveTo( x + -0.5, y + -0.5);
+			myShape2.lineTo( x + 0.5, y + -0.5);
+			myShape2.lineTo( x + 0, y + 1.5);
+			var geometry2 = new THREE.ShapeGeometry( myShape2 );
+			var material2 = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+			var triangle2 = new THREE.Mesh( geometry2, material2 ) ;
+			
+			//TRIANGULO 3
+			var x = 0, y = 0;
+			var myShape3 = new THREE.Shape();
+			myShape3.moveTo( x + -0.2, y + -1);
+			myShape3.lineTo( x + 0.2, y + -1);
+			myShape3.lineTo( x + 0, y + -0.5);
+			var geometry3 = new THREE.ShapeGeometry( myShape3 );
+			var material3 = new THREE.MeshBasicMaterial( { color: 0x3b83bd } );
+			var triangle3 = new THREE.Mesh( geometry3, material3 ) ;
+			
+			//TRIANGULO 4
+			var x = 0, y = 0;
+			var myShape4 = new THREE.Shape();
+			myShape4.moveTo( x + 0.35, y + 0);
+			myShape4.lineTo( x + 0.76, y + 0);
+			myShape4.lineTo( x + 0.58, y + -1.5);
+			var geometry4 = new THREE.ShapeGeometry( myShape4 );
+			var triangle4 = new THREE.Mesh( geometry4, material3 ) ;
+			
+			//TIANGULO 5
+			var x = 0, y = 0;
+			var myShape5 = new THREE.Shape();
+			myShape5.moveTo( x + -0.35, y + 0);
+			myShape5.lineTo( x + -0.76, y + 0);
+			myShape5.lineTo( x + -0.58, y + -1.5);
+			var geometry5 = new THREE.ShapeGeometry( myShape5 );
+			var triangle5 = new THREE.Mesh( geometry5, material3 ) ;
+			
+			//TRANSFORMACIONES ROTAR	
+			var cA = Math.cos(THREE.Math.degToRad(180));
+			var sA = Math.sin(THREE.Math.degToRad(180));
+			var matrixR = new THREE.Matrix4();
+			matrixR.set( cA,-sA, 0, 0,
+						 sA, cA, 0, 0,
+						 0,   0, 1, 0,
+						 0,   0, 0, 1);		// Rotar 180° triangle2				 
+			triangle2.applyMatrix(matrixR);
+			triangle3.applyMatrix(matrixR);
+					
+			//TRANSFORMACIONES ROTAR_2	
+			var cA = Math.cos(THREE.Math.degToRad(45));
+			var sA = Math.sin(THREE.Math.degToRad(45));
+			var matrixR2 = new THREE.Matrix4();
+			matrixR2.set( cA,-sA, 0, 0,
+						 sA, cA, 0, 0,
+						 0,   0, 1, 0,
+						 0,   0, 0, 1);						 
+			
+		    //TRASLACION INVERSA
+			var matrixIT = new THREE.Matrix3();
+			matrixIT.set(1, 0,-4,
+						0, 1,-2,
+						0, 0, 1);
+			
+			//SE AGREGAN LOS OBJETOS A LA ESCENA
+			if(random == 1){
+			scene.add( triangle );
+			}
+			if(random == 2){
+			scene.add( triangle );
+			scene.add( triangle2 );
+			}
+			if(random == 3){
+			scene.add( triangle );
+			scene.add( triangle2 );
+			scene.add( triangle3 );
+			scene.add( triangle4 );
+			scene.add( triangle5 );
+			}
+			//SE REUBICA LA CAMARA PARA VISUALIZAR LOS OBJETOS
+			camera.translateZ(10);
+			camera.lookAt(origin);
+			
+			//SE RENDERIZA LA ESCENA
+			renderer.render( scene, camera );				
+			camera.translateZ(10);
+			camera.lookAt(origin);
+		</script>
+	</body>
+</html>
