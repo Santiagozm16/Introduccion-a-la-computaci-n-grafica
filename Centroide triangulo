@@ -1,0 +1,34 @@
+//Programa para calcular en centroide de un triangulo.
+//Por: Andrés Santiago Rodriguez Prada.
+//Intrucciones: Se pulsa click izquierdo y el programa genera un triangulo aleatorio, muestra el centroide en consola o pulsando flecha
+//arriba sale un mensaje de dialogo que muestra el centroide para, limpiar la pantalla pulsar flecha abajo.
+float x1,y1,x2,y2,x3,y3,cX,cY;
+import javax.swing.JOptionPane;
+void setup(){
+  size(500,500);
+  frameRate(12);
+}
+void draw(){
+  if(mousePressed){
+  x1=random(height);
+  x2=random(height);
+  x3=random(height);
+  y1=random(height);
+  y2=random(height);
+  y3=random(height);
+  fill(25,111,12);
+  triangle(x1,y1,x2,y2,x3,y3);
+  cX = (x1+x2+x3)/3;
+  cY = (y1+y2+y3)/3;
+  fill(255);
+  ellipseMode(CENTER);
+  ellipse(cX,cY,10,10);
+  println("El centroide es "+"( "+cX+","+cY+" )");
+  }
+  if(keyPressed && keyCode == UP){
+    JOptionPane.showMessageDialog(null,"El centroide es "+"( "+cX+","+cY+" )");
+  }
+  if(keyPressed && keyCode == DOWN){
+    background(204);
+  }
+}
